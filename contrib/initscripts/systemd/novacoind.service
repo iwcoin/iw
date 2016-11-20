@@ -1,0 +1,11 @@
+[Unit]
+Description=iWalletCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=iWalletCoin
+ExecStart=/opt/iWalletCoin/iWalletCoind
+
+[Install]
+WantedBy=multi-user.target

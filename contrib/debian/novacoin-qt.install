@@ -1,0 +1,5 @@
+iWalletCoin-qt usr/bin
+share/pixmaps/iWalletCoin32.xpm usr/share/pixmaps
+share/pixmaps/iWalletCoin80.xpm usr/share/pixmaps
+debian/iWalletCoin-qt.desktop usr/share/applications
+debian/iWalletCoin-qt.protocol usr/share/kde4/services/

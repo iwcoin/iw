@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=iWalletCoin
+Comment=iWalletCoin P2P Cryptocurrency
+Comment[ru]=iWalletCoin, P2P криптовалюта
+Comment[fr]=iWalletCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=iWalletCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/iWalletCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/iWalletCoin80.xpm
+MimeType=x-scheme-handler/iWalletCoin;
+Categories=Office;

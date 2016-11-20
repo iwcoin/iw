@@ -1,0 +1,2 @@
+debian/bin/iWalletCoind usr/bin
+src/iWalletCoind usr/lib/iWalletCoin

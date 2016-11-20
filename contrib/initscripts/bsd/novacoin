@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: iWalletCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# iWalletCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable iWalletCoin service.
+# iWalletCoin_config (path): Set to /usr/local/etc/iWalletCoin.conf by default.
+# iWalletCoin_user:  The user account iWalletCoin daemon runs as. It uses 'root' user by default.
+# iWalletCoin_group: The group account iWalletCoin daemon runs as. It uses 'wheel' group by default.
+# iWalletCoin_datadir (str): Default to "/var/db/iWalletCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=iWalletCoin
+rcvar=iWalletCoin_enable
+
+: ${iWalletCoin_enable:=NO}
+: ${iWalletCoin_config=/usr/local/etc/iWalletCoin.conf}
+: ${iWalletCoin_datadir=/var/db/iWalletCoin}
+: ${iWalletCoin_user="root"}
+: ${iWalletCoin_group="wheel"}
+
+required_files=${iWalletCoin_config}
+command=/usr/local/bin/iWalletCoind
+iWalletCoin_chdir=${iWalletCoin_datadir}
+pidfile="${iWalletCoin_datadir}/iWalletCoind.pid"
+stop_cmd=iWalletCoin_stop
+command_args="-conf=${iWalletCoin_config} -datadir=${iWalletCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+iWalletCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${iWalletCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${iWalletCoin_user}:${iWalletCoin_group} ${iWalletCoin_datadir}
+}
+
+iWalletCoin_prestart()
+{
+	if [ ! -d "${iWalletCoin_datadir}/." ]; then
+		iWalletCoin_create_datadir || return 1
+	fi
+}
+
+iWalletCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+iWalletCoin_stop()
+{
+    iWalletCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${iWalletCoin_config} -datadir=${iWalletCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

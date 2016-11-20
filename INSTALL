@@ -1,0 +1,9 @@
+Building iWalletCoin
+
+See doc/readme-qt.rst for instructions on building iWalletCoin Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of iWalletCoin.
+
+See doc/build-*.txt for instructions on building iWalletCoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of iWalletCoin.
