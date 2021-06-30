@@ -1,23 +1,18 @@
-# For a detailed guide to building and testing on iOS, read the docs:
-# https://circleci.com/docs/2.0/testing-ios/
-
 version: 2.1
 
-jobs:
-  build:
+orbs:
+  node: circleci/node@4.1
+  # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
+  # See the orb's test job here: https://circleci.com/developer/orbs/orb/circleci/node#jobs-test
 
-    macos:
-      xcode: 11.0.0 # Specify the Xcode version to use
-
-    steps:
-      - checkout
-      - run: pod install # Install CocoaPods dependencies
-      - run: fastlane scan # Run tests using Fastlane
-
-      # Collect XML test results data to show in the UI, and save the same XML
-      # files under test-results folder in the Artifacts tab
-      - store_test_results:
-          path: test_output
-      - store_artifacts:
-          path: test_output
-          destination: scan-output
+workflows:
+  sample:
+    jobs:
+      - node/test:
+          matrix:
+            parameters:
+              version: ['15.1', 'lts', '12.21']
+          # For more information about matrix testing see the detailed blog post:
+          # https://circleci.com/blog/circleci-matrix-jobs/
+          # or the configuration reference:
+          # https://circleci.com/docs/2.0/configuration-reference/?section=reference#matrix-requires-version-21
